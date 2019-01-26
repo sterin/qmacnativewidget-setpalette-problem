@@ -82,6 +82,25 @@ public:
     }
 };
 
+QMacNativeWidget* make_widget()
+{    
+    QMacNativeWidget *nativeWidget = new QMacNativeWidget();
+
+    QHBoxLayout *hlayout = new QHBoxLayout();
+    hlayout->addWidget(new QPushButton("Push", nativeWidget));
+    hlayout->addWidget(new QLineEdit(nativeWidget));
+
+    QVBoxLayout *vlayout = new QVBoxLayout();
+    vlayout->addLayout(hlayout);
+
+    RedWidget *redWidget = new RedWidget;
+    vlayout->addWidget(redWidget);
+
+    nativeWidget->setLayout(vlayout);
+
+    return nativeWidget;
+}
+
 namespace {
 int qtArgc = 0;
 char **qtArgv;
@@ -108,21 +127,9 @@ QApplication *qtApp = 0;
     [window setTitle:@"NSWindow"];
 
     // Create widget hierarchy with QPushButton and QLineEdit
-    QMacNativeWidget *nativeWidget = new QMacNativeWidget();
+    QMacNativeWidget *nativeWidget = make_widget();
     // Get the NSView for QMacNativeWidget and set it as the content view for the NSWindow
     [window setContentView:nativeWidget->nativeView()];
-
-    QHBoxLayout *hlayout = new QHBoxLayout();
-    hlayout->addWidget(new QPushButton("Push", nativeWidget));
-    hlayout->addWidget(new QLineEdit(nativeWidget));
-
-    QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addLayout(hlayout);
-
-    RedWidget *redWidget = new RedWidget;
-    vlayout->addWidget(redWidget);
-
-    nativeWidget->setLayout(vlayout);
 
     // show() must be called on nativeWiget to get the widgets int he correct state.
     nativeWidget->show();
