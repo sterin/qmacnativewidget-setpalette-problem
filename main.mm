@@ -51,53 +51,13 @@
 #import <AppKit/AppKit.h>
 
 #include <QApplication>
-#include <QDebug>
-#include <QHBoxLayout>
-#include <QLineEdit>
-#include <QPainter>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QWidget>
 #include <QMacNativeWidget>
 
-class RedWidget : public QWidget
-{
-public:
-    RedWidget() {
-
-    }
-
-    void resizeEvent(QResizeEvent *)
-    {
-        qDebug() << "RedWidget::resize" << size();
-    }
-
-    void paintEvent(QPaintEvent *event)
-    {
-        QPainter p(this);
-        Q_UNUSED(event);
-        QRect rect(QPoint(0, 0), size());
-        qDebug() << "Painting geometry" << rect;
-        p.fillRect(rect, QColor(133, 50, 50));
-    }
-};
+#include "macnativeform.h"
 
 QMacNativeWidget* make_widget()
 {    
-    QMacNativeWidget *nativeWidget = new QMacNativeWidget();
-
-    QHBoxLayout *hlayout = new QHBoxLayout();
-    hlayout->addWidget(new QPushButton("Push", nativeWidget));
-    hlayout->addWidget(new QLineEdit(nativeWidget));
-
-    QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addLayout(hlayout);
-
-    RedWidget *redWidget = new RedWidget;
-    vlayout->addWidget(redWidget);
-
-    nativeWidget->setLayout(vlayout);
-
+    QMacNativeWidget *nativeWidget = new MacNativeForm();
     return nativeWidget;
 }
 
@@ -121,7 +81,7 @@ QApplication *qtApp = 0;
     // Create the NSWindow
     NSRect frame = NSMakeRect(500, 500, 500, 500);
     NSWindow* window  = [[NSWindow alloc] initWithContentRect:frame
-                        styleMask:NSTitledWindowMask |  NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask
+                        styleMask:NSWindowStyleMaskTitled |  NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable
                         backing:NSBackingStoreBuffered
                         defer:NO];
     [window setTitle:@"NSWindow"];
