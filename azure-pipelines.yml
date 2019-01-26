@@ -1,0 +1,36 @@
+jobs:
+
+  - job: macOS
+
+    pool:
+      vmImage: 'macOS-10.13'
+
+    steps:
+
+    - checkout: self
+      submodules: recursive
+
+    - script: |
+        brew update
+        brew install qt
+      displayName: Install Qt
+
+    - script: |
+        /usr/local/opt/qt/bin/qmake
+      displayName: 'qmake'
+
+    - script: |
+        make
+      displayName: 'Build'
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'cocoa-app'
+        targetPath: 'cocoa/cocoa.app'
+      displayName: "Publish QMacNativeWidget binary"
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'pure-qt-app'
+        targetPath: 'pure-qt/pure-qt.app'
+      displayName: "Publish pure Qt binary"
