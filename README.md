@@ -2,6 +2,18 @@
 
 This repository reproduces a problem with the interaction of `QMacNativeWidget` and `QApplication::setPalette()`. 
 
+# UPDATE
+
+The reason changes to the application palette do not affect `QMacNativeWidget` is that its constructor sets the palette explicitly. Once the palette is set explicitly, changes to the application palette no longer propagate through the widget.
+
+The simple solution is to just reset the palette to the default palette by using:
+
+    setPalette( QPalette() );
+
+Once this is done, change to the application palette start affecting the widget and its children.
+
+The new directory `cocoa-ok` contains a working version.
+
 # Build Instructions
 
     qmake

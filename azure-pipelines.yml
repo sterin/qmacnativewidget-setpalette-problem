@@ -31,6 +31,12 @@ jobs:
 
     - task: PublishPipelineArtifact@0
       inputs:
+        artifactName: 'cocoa-ok-app'
+        targetPath: 'cocoa-ok/cocoa-ok.app'
+      displayName: "Publish working QMacNativeWidget binary"
+
+    - task: PublishPipelineArtifact@0
+      inputs:
         artifactName: 'pure-qt-app'
         targetPath: 'pure-qt/pure-qt.app'
       displayName: "Publish pure Qt binary"

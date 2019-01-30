@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += cocoa pure-qt
+SUBDIRS += cocoa cocoa-ok pure-qt
